@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/rosa_choque"
+    tools:context=".view.MainActivity">
+
+    <TextView
+        android:id="@+id/txt_bemVindo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="@font/joti_one"
+        android:paddingBottom="50dp"
+        android:text="@string/titulo_principal"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/ellipse_lado_esq"
+        android:layout_width="100dp"
+        android:layout_height="912dp"
+        android:layout_marginEnd="267dp"
+        android:src="@drawable/elipse_lado_esq"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/img_balao"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_balao" />
+
+    <ImageView
+        android:id="@+id/img_balao"
+        android:layout_width="430dp"
+        android:layout_height="429dp"
+        android:layout_marginTop="64dp"
+        android:src="@drawable/balao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="357dp"
+        android:layout_height="117dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginBottom="212dp"
+        android:fontFamily="@font/joti_one"
+        android:text="@string/txt_tela01"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/img_balao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/img_balao" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="186dp"
+        android:layout_height="203dp"
+        android:layout_marginTop="172dp"
+        android:src="@drawable/ola"
+        app:flow_horizontalAlign="start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_bemVindo"
+        app:layout_constraintVertical_bias="0.228" />
+
+
+    <TextView
+        android:id="@+id/txt_digite_nome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="404dp"
+        android:layout_marginEnd="73dp"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="@font/joti_one"
+        android:text="@string/txt_edt_nome"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/edt_nome"
+        app:layout_constraintEnd_toEndOf="@+id/img_balao"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/img_balao" />
+
+    <EditText
+        android:id="@+id/edt_nome"
+        android:layout_width="260dp"
+        android:layout_height="49dp"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/ic_person"
+        android:drawablePadding="5dp"
+        android:hint="@string/edt_nome"
+        android:textColor="@color/rosa_palavras"
+        android:textColorHint="@color/rosa_palavras"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.894"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.553" />
+
+    <ImageButton
+        android:id="@+id/btn_seta_seguir"
+        android:layout_width="105dp"
+        android:layout_height="99dp"
+        android:layout_marginStart="285dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/btn_seta"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="@+id/ellipse_lado_esq"
+        app:layout_constraintTop_toTopOf="@+id/edt_nome"
+        app:layout_constraintVertical_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

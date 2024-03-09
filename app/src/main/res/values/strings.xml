@@ -1,0 +1,39 @@
+<resources>
+    <!-- Principal-->
+    <string name="app_name">interfacesSOS</string>
+    <string name="titulo_principal">Bem vindo</string>
+    <string name="txt_tela01">Bom! Vamos começar,
+    primeiro me informe seu nome</string>
+    <string name="edt_nome">Nome</string>
+    <string name="txt_edt_nome">Digite seu nome:</string>
+    <!-- Segunda-->
+    <string name="titulo_segundaEtapa">Segunda etapa</string>
+    <string name="txt_segundaEtapa">Agora me informe seu email:</string>
+    <string name="txt_edt_email">Digite seu email:</string>
+    <string name="edt_email">Email</string>
+    <!-- Terceira-->
+    <string name="titulo_terceiraEtapa">Terceira etapa</string>
+    <string name="txt_terceiraEtapa">Hmm, agora uma parte bem importante!</string>
+    <string name="txt_edt_contatos">Digite seus contatos:</string>
+    <string name="edt_contato">(XX) XXXXX-XXXX</string>
+    <!-- Final-->
+    <string name="titulo_finalEtapa">Protinho!</string>
+    <string name="txt_finalEtapa">Confira seus dados</string>
+    <string name="txt_edt_final">Confirme seus Dados:</string>
+    <string name="edt_final_nome">Nome</string>
+    <string name="edt_final_email">Email</string>
+    <string name="edt_cont1">(XX) XXXXX-XXXX</string>
+    <string name="edt_cont2">(XX) XXXXX-XXXX</string>
+    <string name="title_activity_tela_localizacao">TelaLocalizacaoActivity</string>
+
+
+    <string name="txt_menu">Menu</string>
+    <string name="btn_cad_cont">Cadastrar Contato</string>
+    <string name="btn_editar_cont">Editar Dados</string>
+    <string name="txt_sair">Sair</string>
+    <string name="txt_box_localizacao">Sua Localização</string>
+    <string name="latitude">"Latitude: "</string>
+    <string name="longitude">Longitude: </string>
+    <string name="ultimaAtt">"Ultima Atulização: "</string>
+    <string name="txt2_box_localizacao">Compartilhar localização</string>
+</resources>

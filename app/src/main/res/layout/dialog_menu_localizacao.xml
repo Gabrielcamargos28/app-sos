@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/joti_one"
+        android:text="@string/txt_menu"
+        android:textAlignment="center"
+        android:textColor="@color/rosa_palavras"
+        android:textSize="30dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/rosa_palavras"
+        android:fontFamily="@font/joti_one"
+        android:text="@string/btn_cad_cont"
+        android:textSize="23dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/rosa_palavras"
+        android:fontFamily="@font/joti_one"
+        android:text="@string/btn_editar_cont"
+        android:textSize="23dp" />
+
+    <Button
+        android:id="@+id/btn_sair_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/rosa_palavras"
+        android:fontFamily="@font/joti_one"
+        android:text="@string/txt_sair"
+        android:textSize="23dp" />
+</LinearLayout>
