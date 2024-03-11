@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/rosa_choque"
-    tools:context=".view.SegundaEtapaActivity">
+    tools:context=".ui.SegundaEtapaActivity">
 
     <TextView
         android:id="@+id/txt_segundaEtapa"
