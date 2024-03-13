@@ -39,4 +39,13 @@
         android:fontFamily="@font/joti_one"
         android:text="@string/txt_sair"
         android:textSize="23dp" />
+
+    <Button
+        android:id="@+id/btn_deletar_dados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/rosa_palavras"
+        android:fontFamily="@font/joti_one"
+        android:text="deletar dados"
+        android:textSize="23dp" />
 </LinearLayout>

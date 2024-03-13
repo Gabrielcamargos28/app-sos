@@ -13,8 +13,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dbHelper: DBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+        dbHelper = DBHelper(this)
 
         if(dbHelper.login()){
             val i = Intent(this, TelaLocalizacaoActivity::class.java)
