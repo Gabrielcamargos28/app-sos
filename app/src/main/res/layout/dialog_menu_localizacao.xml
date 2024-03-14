@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:padding="10dp">
 
     <TextView
@@ -20,12 +21,14 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/rosa_palavras"
         android:fontFamily="@font/joti_one"
+        android:textColor="@color/white"
         android:text="@string/btn_cad_cont"
         android:textSize="23dp" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:backgroundTint="@color/rosa_palavras"
         android:fontFamily="@font/joti_one"
         android:text="@string/btn_editar_cont"
@@ -37,12 +40,14 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/rosa_palavras"
         android:fontFamily="@font/joti_one"
+        android:textColor="@color/white"
         android:text="@string/txt_sair"
         android:textSize="23dp" />
 
     <Button
         android:id="@+id/btn_deletar_dados"
         android:layout_width="match_parent"
+        android:textColor="@color/white"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/rosa_palavras"
         android:fontFamily="@font/joti_one"

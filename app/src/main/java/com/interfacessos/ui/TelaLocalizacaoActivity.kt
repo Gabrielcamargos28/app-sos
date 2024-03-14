@@ -1,19 +1,23 @@
 package com.interfacessos.ui
 
 import android.Manifest
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.interfacessos.database.DBHelper
 import com.interfacessos.databinding.ActivityTelaLocalizacaoBinding
 import com.interfacessos.model.Contato
+import com.interfacessos.model.Usuario
 import com.interfacessos.services.ServicoLocalizacao
 import com.interfacessos.services.ServicoSms
 
@@ -21,14 +25,18 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTelaLocalizacaoBinding
     private lateinit var dbHelper: DBHelper
+    var latitude: String = ""
+    var longitude: String = ""
+    var ultimaAtualizacao: String = ""
+    private lateinit var locationManager: LocationManager
 
     private val locationReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             intent?.let {
 
-                val latitude = it.getStringExtra("latitude")
-                val longitude = it.getStringExtra("longitude")
-                val ultimaAtualizacao = it.getStringExtra("ultimaAtt")
+                latitude = it.getStringExtra("latitude").toString()
+                longitude = it.getStringExtra("longitude").toString()
+                ultimaAtualizacao = it.getStringExtra("ultimaAtt").toString()
 
                 binding.txtLatAtual.setText(latitude)
                 binding.txtLongAtual.setText(longitude)
@@ -37,8 +45,27 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
             }
         }
     }
+    private val envioReceiver  = object: BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if(resultCode == Activity.RESULT_OK){
+                Toast.makeText(context, "Mensagem entregue com sucesso", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(context, "Erro ao entregar mensagem", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    private val entregaReceiver = object: BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (resultCode == Activity.RESULT_OK) {
+                Toast.makeText(context, "Mensagem entregue com sucesso", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Erro ao entregar mensagem", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityTelaLocalizacaoBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
@@ -49,9 +76,12 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             registerReceiver(locationReceiver,filter, RECEIVER_EXPORTED)
+            registerReceiver(envioReceiver, IntentFilter("SMS_ENVIADO"), RECEIVER_EXPORTED)
+            registerReceiver(entregaReceiver, IntentFilter("SMS_ENTREGUE"), RECEIVER_EXPORTED)
         }
         buscarDados()
         startLocationService()
+
     }
     private fun permissaoLocalizacaoConcedida(): Boolean {
         if (ActivityCompat.checkSelfPermission(
@@ -93,25 +123,23 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
         }
     }
     fun startSendSms(){
-        //var numero1 = binding.txtContato1.text.toString()
-
-        var numero1 = "34988751014"
-        var numero2 = "34988433526"
         val listaContatos: ArrayList<Contato> = dbHelper.getContatos()
 
         Log.d("Lista contatos","${listaContatos.size}")
 
         listaContatos.forEach {
             contato ->
-            ServicoSms().enviarMensagem(contato.telefone,"Teste mensagem SOS",this)
+            //ServicoSms().enviarMensagem(contato.telefone,"SOS Preciso de ajuda\nMinha localização é: \nhttps://www.google.com/maps/search/?api=1&query=$latitude,$longitude\"\nUltima atualizacao: ${ultimaAtualizacao}",this)
+            ServicoSms().enviarMensagem(contato.telefone,"http://maps.google.com/?q=${latitude},${longitude}",this)
         }
-
     }
     override fun onResume() {
         super.onResume()
     }
     override fun onDestroy() {
         super.onDestroy()
+        unregisterReceiver(envioReceiver)
+        unregisterReceiver(entregaReceiver)
     }
     fun startLocationService(){
         val serviceIntent = Intent(this, ServicoLocalizacao::class.java)
@@ -128,18 +156,18 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
         val nome = i.extras?.getString("nome_usuario_alterado").toString()
         Log.d("Valo nome","${nome}")
 
-        val usuarioRecuperado = dbHelper.getUsuario(nome)
+        val usuarioRecuperado: ArrayList<Usuario> = dbHelper.getUsuarios()
 
         if (usuarioRecuperado != null) {
-            val nomeExibir = usuarioRecuperado.nome
-            binding.txtOla.text = "Olá $nomeExibir"
+            val nomeExibir = usuarioRecuperado.forEach{
+                usuarioRecuperado -> binding.txtOla.text = "Olá ${usuarioRecuperado.nome}"}
 
-            val contatos = dbHelper.getContatosDoUsuario(usuarioRecuperado.id)
-            Log.d("Retorno", "${dbHelper.getContatosDoUsuario(usuarioRecuperado.id)}")
-            Log.d("Lista contatos", "${contatos}")
+            val contatos: ArrayList<Contato> = dbHelper.getContatos()
+
             if (contatos.isNotEmpty()) {
                 val contato1 = contatos[0]
-                binding.txtContato1.text = contato1.nome
+                binding.txtContato1.setText(" ${contato1.telefone}")
+
             } else {
                 Log.d("lista contatos nula","nula")
             }

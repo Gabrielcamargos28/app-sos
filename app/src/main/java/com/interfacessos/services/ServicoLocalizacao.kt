@@ -31,108 +31,130 @@ class ServicoLocalizacao: Service(){
     override fun onCreate() {
         super.onCreate()
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        getLocation()
+        getGpsAtivado()
     }
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("SeuServico", "O serviço foi iniciado")
-        getLocation()
+        val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val enableGpsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            Log.d("Teste", "teste")
+            if(getGpsAtivado()){
+                getLocation()
+            }else{
+                /*Log.d("Get Gps","${getGpsAtivado()}")
+                while(getGpsAtivado()){
+                    Log.d("Get Gps","${getGpsAtivado()}")
+                    getGpsAtivado()
+                }*/
+                do{
+                    enableGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(enableGpsIntent)
+                    //getGpsAtivado()
+                }while (!isGpsEnabled)
+            }
+        }else{
+            Toast.makeText(this, "Permissão negada", Toast.LENGTH_SHORT).show()
+        }
         return START_STICKY
     }
-    private fun getLocation() {
+
+    private fun getGpsAtivado(): Boolean{
+        val enableGpsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
         val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        if (!isGpsEnabled) {
-            showEnableGpsDialog()
-            Toast.makeText(
-                applicationContext,
-                "Por favor, habilite o GPS",
-                Toast.LENGTH_SHORT
-            ).show()
-            val enableGpsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        Log.d("Get Gps ativado valor gps","${isGpsEnabled}")
+        if(isGpsEnabled){
+            getLocation()
+            return true
+        }else{
             enableGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(enableGpsIntent)
+            getGpsAtivado()
+        }
+        return false
+    }
+
+    private fun getLocation() {
+        /*val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
+        if (!isGpsEnabled) {
+            showEnableGpsDialog()
+            Toast.makeText(applicationContext,"Por favor, habilite o GPS",Toast.LENGTH_SHORT).show()
+
+            val enableGpsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+
+            enableGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+            startActivity(enableGpsIntent)
+
             return
-        }
+        }*/
+        Log.d("Get Location","Get location")
+            val Gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            val Network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
-        val Gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        val Network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                val locationListener: LocationListener = object : LocationListener {
+                    override fun onLocationChanged(location: Location) {
+                        val latitude = location.latitude.toString()
+                        val longitude = location.longitude.toString()
 
-        val locationListener: LocationListener = object : LocationListener {
-            override fun onLocationChanged(location: Location) {
-                val latitude = location.latitude.toString()
-                val longitude = location.longitude.toString()
+                        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+                        val ultimaAtualizacaoFormat = dateFormat.format(Date(ultimaAtualizacaoDaLocalizacao)).toString()
 
-                val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-                val ultimaAtualizacaoFormat = dateFormat.format(Date(ultimaAtualizacaoDaLocalizacao)).toString()
+                        val broadcastIntent = Intent(LOCATION_UPDATE_ACTION).apply {
+                            putExtra("latitude",latitude)
+                            putExtra("longitude",longitude)
+                            putExtra("ultimaAtt",ultimaAtualizacaoFormat)
+                        }
+                        ultimaAtualizacaoDaLocalizacao = System.currentTimeMillis()
+                        sendBroadcast(broadcastIntent)
+                        /*Toast.makeText(
+                            applicationContext,
+                            "Latitude: $latitude, Longitude: $longitude",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        */
+                    }
 
-                val broadcastIntent = Intent(LOCATION_UPDATE_ACTION).apply {
-                    putExtra("latitude",latitude)
-                    putExtra("longitude",longitude)
-                    Log.d("BroadcastIntent","intent broadcast")
-                    putExtra("ultimaAtt",ultimaAtualizacaoFormat)
-                    Log.d("ultimaAtualizacaoDaLocalizacao", "${ultimaAtualizacaoDaLocalizacao}")
-                    Log.d("ultimaAtualizacaoFormat","${ultimaAtualizacaoFormat}")
+                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+
+                    override fun onProviderEnabled(provider: String) {}
+
+                    override fun onProviderDisabled(provider: String) {}
                 }
-                sendBroadcast(broadcastIntent)
 
-                Toast.makeText(
-                    applicationContext,
-                    "Latitude: $latitude, Longitude: $longitude",
-                    Toast.LENGTH_SHORT
-                ).show()
-                ultimaAtualizacaoDaLocalizacao = System.currentTimeMillis()
+                if (Gps) {
+                    locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        5000,
+                        0f,
+                        locationListener
+                    )
+                    Toast.makeText(this, "Buscando pelo Gps", Toast.LENGTH_SHORT).show()
+                }
+                if (Network) {
+                    locationManager.requestLocationUpdates(
+                        LocationManager.NETWORK_PROVIDER,
+                        5000,
+                        0f,
+                        locationListener
+                    )
+                    Toast.makeText(this, "Buscando pela Internet", Toast.LENGTH_SHORT).show()
+                }
+
+                val ultimaLocalizacaoGps: Location? =
+                    locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
+                if (ultimaLocalizacaoGps != null) {
+                    val latitude = ultimaLocalizacaoGps.latitude
+                    val longitude = ultimaLocalizacaoGps.longitude
+                    Toast.makeText(applicationContext,"Ultima localizacao Gps Latitude: $latitude, Longitude: $longitude conhecida",Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(applicationContext, "Última localização GPS não disponível", Toast.LENGTH_SHORT).show() }
             }
-
-            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-
-            override fun onProviderEnabled(provider: String) {}
-
-            override fun onProviderDisabled(provider: String) {}
-        }
-
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            if (Gps) {
-                locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    5000,
-                    0f,
-                    locationListener
-                )
+            else{
+                Toast.makeText(this, "Permissão negada", Toast.LENGTH_SHORT).show()
             }
-            if (Network) {
-                locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER,
-                    5000,
-                    0f,
-                    locationListener
-                )
-            }
-
-            val ultimaLocalizacao: Location? =
-                locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-
-            if (ultimaLocalizacao != null) {
-                val latitude = ultimaLocalizacao.latitude
-                val longitude = ultimaLocalizacao.longitude
-                val horarioUltimaLocalizacao = ultimaAtualizacaoDaLocalizacao
-
-                Toast.makeText(
-                    applicationContext,
-                    "Ultima Latitude: $latitude, Longitude: $longitude conhecida",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                Toast.makeText(
-                    applicationContext,
-                    "Última localização GPS não disponível",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
     }
 
     private fun showEnableGpsDialog() {
@@ -150,6 +172,7 @@ class ServicoLocalizacao: Service(){
         val alert = alertDialogBuilder.create()
         alert.show()
     }
+
     companion object{
         const val LOCATION_UPDATE_ACTION = "com.interfacessos.services.LOCATION_UPDATE"
     }
