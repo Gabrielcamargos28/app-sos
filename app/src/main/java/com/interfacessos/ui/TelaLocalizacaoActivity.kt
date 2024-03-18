@@ -135,6 +135,7 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
+        startLocationService()
     }
     override fun onDestroy() {
         super.onDestroy()
