@@ -46,11 +46,8 @@ class ServicoLocalizacao: Service(){
                     Log.d("Get Gps","${getGpsAtivado()}")
                     getGpsAtivado()
                 }*/
-                do{
                     enableGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(enableGpsIntent)
-                    //getGpsAtivado()
-                }while (!isGpsEnabled)
             }
         }else{
             Toast.makeText(this, "Permissão negada", Toast.LENGTH_SHORT).show()
@@ -68,7 +65,7 @@ class ServicoLocalizacao: Service(){
         }else{
             enableGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(enableGpsIntent)
-            getGpsAtivado()
+            //getGpsAtivado()
         }
         return false
     }
@@ -130,6 +127,7 @@ class ServicoLocalizacao: Service(){
                         0f,
                         locationListener
                     )
+
                     Toast.makeText(this, "Buscando pelo Gps", Toast.LENGTH_SHORT).show()
                 }
                 if (Network) {
