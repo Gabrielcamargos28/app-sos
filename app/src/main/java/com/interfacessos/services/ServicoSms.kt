@@ -3,12 +3,14 @@ package com.interfacessos.services
 import android.Manifest
 import android.app.Activity
 import android.app.PendingIntent
+import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Handler
+import android.os.IBinder
 import android.telephony.SmsManager
 import android.util.Log
 import android.widget.Toast
@@ -17,15 +19,24 @@ import androidx.core.content.ContextCompat
 import com.interfacessos.database.DBHelper
 import com.interfacessos.model.Contato
 
-class ServicoSms(private val dbHelper: DBHelper,private val context: Context?){
+class ServicoSms(private val dbHelper: DBHelper,private val context: Context?): Service(){
 
 
     var latitude: String = ""
     var longitude: String = ""
     var ultimaAtualizacao: String = ""
     private lateinit var locationManager: LocationManager
-
     //private val ACTION_CLICK = "com.interfacesos.ui.ACTION_CLICK"
+
+
+    override fun onBind(intent: Intent?): IBinder? {
+        TODO("Not yet implemented")
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        startSendSms()
+    }
 
     fun enviarMensagem(telefone: String, mensagem: String, context: Context){
         try{
@@ -63,9 +74,6 @@ class ServicoSms(private val dbHelper: DBHelper,private val context: Context?){
 
     fun startSendSms(){
         val listaContatos: ArrayList<Contato> = dbHelper.getContatos()
-
-        Log.d("Lista contatos","${listaContatos.size}")
-
         listaContatos.forEach {
                 contato ->
             if (context != null) {
@@ -78,13 +86,11 @@ class ServicoSms(private val dbHelper: DBHelper,private val context: Context?){
     }
 
     fun startSendSmsRepetidamente(context: Context?, iniciaSOS: Boolean){
-        Log.d("STARTSEND","${iniciaSOS}")
         if(iniciaSOS){
-            Log.d("STARTSEND","valor: ${iniciaSOS}")
             startSendSms()
             val handler = Handler()
             handler.postDelayed({
-                startSendSmsRepetidamente(context, iniciaSOS)
+                    startSendSmsRepetidamente(context, iniciaSOS)
             //}, 15000)
             }, 30000)
         }
