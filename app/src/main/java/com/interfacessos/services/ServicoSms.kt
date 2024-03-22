@@ -3,15 +3,30 @@ package com.interfacessos.services
 import android.Manifest
 import android.app.Activity
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.LocationManager
+import android.os.Handler
 import android.telephony.SmsManager
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.interfacessos.database.DBHelper
+import com.interfacessos.model.Contato
 
-class ServicoSms{
+class ServicoSms(private val dbHelper: DBHelper,private val context: Context?){
+
+
+    var latitude: String = ""
+    var longitude: String = ""
+    var ultimaAtualizacao: String = ""
+    private lateinit var locationManager: LocationManager
+
+    //private val ACTION_CLICK = "com.interfacesos.ui.ACTION_CLICK"
+
     fun enviarMensagem(telefone: String, mensagem: String, context: Context){
         try{
             val permissao = Manifest.permission.SEND_SMS
@@ -23,7 +38,7 @@ class ServicoSms{
                     PendingIntent.FLAG_IMMUTABLE)
 
                 smsManager.sendTextMessage(telefone, null, mensagem,envioIntent,entregueIntent)
-
+                Log.d("Mensagem enviada","Mensagem enviada")
                 Toast.makeText(context, "Mensagem enviada com sucesso", Toast.LENGTH_SHORT).show()
             }else{
                 ActivityCompat.requestPermissions(context as Activity, arrayOf(permissao), 0)
@@ -35,6 +50,43 @@ class ServicoSms{
         }
     }
 
+    private val locationReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.let {
+                Log.d("WIDGET LOCALIZACAO","${latitude},${longitude}")
+                latitude = it.getStringExtra("latitude").toString()
+                longitude = it.getStringExtra("longitude").toString()
+                ultimaAtualizacao = it.getStringExtra("ultimaAtt").toString()
+            }
+        }
+    }
 
+    fun startSendSms(){
+        val listaContatos: ArrayList<Contato> = dbHelper.getContatos()
 
+        Log.d("Lista contatos","${listaContatos.size}")
+
+        listaContatos.forEach {
+                contato ->
+            if (context != null) {
+                Log.d("Numero","${contato.telefone}")
+                Log.d("Latitude","${latitude}")
+                Log.d("Longitude", "${ longitude }")
+                enviarMensagem(contato.telefone,"http://maps.google.com/?q=${latitude},${longitude}", context)
+            }
+        }
+    }
+
+    fun startSendSmsRepetidamente(context: Context?, iniciaSOS: Boolean){
+        Log.d("STARTSEND","${iniciaSOS}")
+        if(iniciaSOS){
+            Log.d("STARTSEND","valor: ${iniciaSOS}")
+            startSendSms()
+            val handler = Handler()
+            handler.postDelayed({
+                startSendSmsRepetidamente(context, iniciaSOS)
+            //}, 15000)
+            }, 30000)
+        }
+    }
 }

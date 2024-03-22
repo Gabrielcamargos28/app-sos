@@ -41,11 +41,6 @@ class ServicoLocalizacao: Service(){
             if(getGpsAtivado()){
                 getLocation()
             }else{
-                /*Log.d("Get Gps","${getGpsAtivado()}")
-                while(getGpsAtivado()){
-                    Log.d("Get Gps","${getGpsAtivado()}")
-                    getGpsAtivado()
-                }*/
                     enableGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(enableGpsIntent)
             }
@@ -55,7 +50,7 @@ class ServicoLocalizacao: Service(){
         return START_STICKY
     }
 
-    private fun getGpsAtivado(): Boolean{
+     fun getGpsAtivado(): Boolean{
         val enableGpsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
         val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         Log.d("Get Gps ativado valor gps","${isGpsEnabled}")
@@ -70,21 +65,7 @@ class ServicoLocalizacao: Service(){
         return false
     }
 
-    private fun getLocation() {
-        /*val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-
-        if (!isGpsEnabled) {
-            showEnableGpsDialog()
-            Toast.makeText(applicationContext,"Por favor, habilite o GPS",Toast.LENGTH_SHORT).show()
-
-            val enableGpsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-
-            enableGpsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-            startActivity(enableGpsIntent)
-
-            return
-        }*/
+     fun getLocation() {
         Log.d("Get Location","Get location")
             val Gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
             val Network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)

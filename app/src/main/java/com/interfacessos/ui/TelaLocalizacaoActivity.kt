@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -28,7 +27,7 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
     var latitude: String = ""
     var longitude: String = ""
     var ultimaAtualizacao: String = ""
-    private lateinit var locationManager: LocationManager
+    //private val ACTION_CLICK = "com.interfacesos.ui.ACTION_CLICK"
 
     private val locationReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -63,6 +62,7 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
             }
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -130,7 +130,7 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
         listaContatos.forEach {
             contato ->
             //ServicoSms().enviarMensagem(contato.telefone,"SOS Preciso de ajuda\nMinha localização é: \nhttps://www.google.com/maps/search/?api=1&query=$latitude,$longitude\"\nUltima atualizacao: ${ultimaAtualizacao}",this)
-            ServicoSms().enviarMensagem(contato.telefone,"http://maps.google.com/?q=${latitude},${longitude}",this)
+            ServicoSms(dbHelper,this).enviarMensagem(contato.telefone,"http://maps.google.com/?q=${latitude},${longitude}",this)
         }
     }
     override fun onResume() {
@@ -149,7 +149,6 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
         }else{
             startService(serviceIntent)
         }
-
     }
     fun buscarDados(){
         val i = intent

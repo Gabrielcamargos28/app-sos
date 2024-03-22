@@ -6,4 +6,8 @@
     <color name="rosa_palavras">#AD6C79</color>
     <color name="my_light_primary">#FFFFFFFF</color>
     <color name="my_dark_primary">#FFFFFFFF</color>
+    <color name="light_blue_50">#FFE1F5FE</color>
+    <color name="light_blue_200">#FF81D4FA</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
 </resources>
