@@ -128,9 +128,10 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
         Log.d("Lista contatos","${listaContatos.size}")
 
         listaContatos.forEach {
-            contato ->
-            //ServicoSms().enviarMensagem(contato.telefone,"SOS Preciso de ajuda\nMinha localização é: \nhttps://www.google.com/maps/search/?api=1&query=$latitude,$longitude\"\nUltima atualizacao: ${ultimaAtualizacao}",this)
-            ServicoSms(dbHelper,this).enviarMensagem(contato.telefone,"http://maps.google.com/?q=${latitude},${longitude}",this)
+                contato ->
+                //ServicoSms().enviarMensagem(contato.telefone,"SOS Preciso de ajuda\nMinha localização é: \nhttps://www.google.com/maps/search/?api=1&query=$latitude,$longitude\"\nUltima atualizacao: ${ultimaAtualizacao}",this)
+                Log.d("Numero","${contato.telefone}")
+                ServicoSms(dbHelper,this).enviarMensagem(contato.telefone,"http://maps.google.com/?q=${latitude},${longitude}",this)
         }
     }
     override fun onResume() {

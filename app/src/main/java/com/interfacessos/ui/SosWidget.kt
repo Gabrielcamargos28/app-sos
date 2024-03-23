@@ -53,9 +53,7 @@ class SosWidget : AppWidgetProvider() {
             if (iniciaSOS) {
                 iniciaSOS = false
                 Log.d("WIDGET PAROU","VALOR: ${iniciaSOS}")
-                serviceSms.
                 //serviceSms.startSendSmsRepetidamente(context, iniciaSOS)
-                Log.d("WIDGET", "SOS parou")
                 Toast.makeText(context, "SOS parou", Toast.LENGTH_SHORT).show()
                 } else {
                     iniciaSOS = true
@@ -64,7 +62,6 @@ class SosWidget : AppWidgetProvider() {
                     Toast.makeText(context, "SOS iniciou", Toast.LENGTH_SHORT).show()
                     //serviceSms.startSendSmsRepetidamente(context, iniciaSOS)
                 }
-
                 //sharedPreferences.edit().putBoolean("iniciaLocalizacao", iniciaLocalizacao).apply()
                 sharedPreferences.edit().putBoolean("iniciaSOS", iniciaSOS).apply()
 
