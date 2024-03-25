@@ -17,8 +17,8 @@ import com.interfacessos.database.DBHelper
 import com.interfacessos.databinding.ActivityTelaLocalizacaoBinding
 import com.interfacessos.model.Contato
 import com.interfacessos.model.Usuario
+import com.interfacessos.services.ServiceSms
 import com.interfacessos.services.ServicoLocalizacao
-import com.interfacessos.services.ServicoSms
 
 class TelaLocalizacaoActivity : AppCompatActivity() {
 
@@ -122,18 +122,20 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
             startActivity(i)
         }
     }
-    fun startSendSms(){
+    fun startSendSms() {
         val listaContatos: ArrayList<Contato> = dbHelper.getContatos()
 
-        Log.d("Lista contatos","${listaContatos.size}")
+        Log.d("Lista contatos", "${listaContatos.size}")
 
-        listaContatos.forEach {
-                contato ->
-                //ServicoSms().enviarMensagem(contato.telefone,"SOS Preciso de ajuda\nMinha localização é: \nhttps://www.google.com/maps/search/?api=1&query=$latitude,$longitude\"\nUltima atualizacao: ${ultimaAtualizacao}",this)
-                Log.d("Numero","${contato.telefone}")
-                ServicoSms(dbHelper,this).enviarMensagem(contato.telefone,"http://maps.google.com/?q=${latitude},${longitude}",this)
+        listaContatos.forEach { contato ->
+            val intent = Intent(this, ServiceSms::class.java).apply {
+                putExtra("telefone", contato.telefone)
+                putExtra("mensagem", "http://maps.google.com/?q=$latitude,$longitude")
+            }
+            startService(intent)
         }
     }
+
     override fun onResume() {
         super.onResume()
         startLocationService()

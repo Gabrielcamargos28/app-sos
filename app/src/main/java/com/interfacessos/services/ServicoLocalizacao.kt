@@ -154,5 +154,6 @@ class ServicoLocalizacao: Service(){
 
     companion object{
         const val LOCATION_UPDATE_ACTION = "com.interfacessos.services.LOCATION_UPDATE"
+        const val NOTIFICATION_ID = 123 // ID da notificação
     }
 }

@@ -1,92 +1,85 @@
 package com.interfacessos.services
 
 import android.Manifest
-import android.app.Activity
+import android.annotation.SuppressLint
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.LocationManager
-import android.os.Handler
+import android.os.Build
+import android.os.IBinder
 import android.telephony.SmsManager
 import android.util.Log
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import com.interfacessos.R
 import com.interfacessos.database.DBHelper
-import com.interfacessos.model.Contato
+import com.interfacessos.ui.MainActivity
 
-class ServicoSms(private val dbHelper: DBHelper,private val context: Context?){
+class ServiceSms : Service() {
 
+    private lateinit var dbHelper: DBHelper
 
-    var latitude: String = ""
-    var longitude: String = ""
-    var ultimaAtualizacao: String = ""
-    private lateinit var locationManager: LocationManager
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
+    }
 
-    //private val ACTION_CLICK = "com.interfacesos.ui.ACTION_CLICK"
+    @SuppressLint("ForegroundServiceType")
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        dbHelper = DBHelper(this)
+        enviarMensagem(intent?.getStringExtra("telefone"), intent?.getStringExtra("mensagem"))
 
-    fun enviarMensagem(telefone: String, mensagem: String, context: Context){
-        try{
+        val notificacao = criarNotificacao()
+
+        startForeground(1,notificacao)
+
+        return START_NOT_STICKY
+    }
+
+    private fun criarNotificacao(): Notification {
+        val id= "Sms servico"
+        val nome = "sms servico"
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+            val notificationChannel = NotificationChannel(id,nome,NotificationManager.IMPORTANCE_DEFAULT)
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+        val notificationIntent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
+
+        return NotificationCompat.Builder(this, id)
+            .setContentTitle("Serviço em execução")
+            .setContentText("Servico de envio de sms em execucao")
+            .setSmallIcon(R.drawable.ic_email)
+            .setContentIntent(pendingIntent)
+            .build()
+
+    }
+
+    private fun enviarMensagem(telefone: String?, mensagem: String?) {
+        try {
             val permissao = Manifest.permission.SEND_SMS
-            if(ContextCompat.checkSelfPermission(context, permissao) == PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(this, permissao) == PackageManager.PERMISSION_GRANTED) {
                 val smsManager: SmsManager = SmsManager.getDefault()
-                val envioIntent = PendingIntent.getBroadcast(context,0, Intent("SMS_ENVIADO"),
+                val envioIntent = PendingIntent.getBroadcast(this, 0, Intent("SMS_ENVIADO"),
                     PendingIntent.FLAG_IMMUTABLE)
-                val entregueIntent = PendingIntent.getBroadcast(context, 0, Intent("SMS_ENTREGUE"),
+                val entregueIntent = PendingIntent.getBroadcast(this, 0, Intent("SMS_ENTREGUE"),
                     PendingIntent.FLAG_IMMUTABLE)
 
-                smsManager.sendTextMessage(telefone, null, mensagem,envioIntent,entregueIntent)
-                Log.d("Mensagem enviada","Mensagem enviada")
-                Toast.makeText(context, "Mensagem enviada com sucesso", Toast.LENGTH_SHORT).show()
-            }else{
-                ActivityCompat.requestPermissions(context as Activity, arrayOf(permissao), 0)
-                Toast.makeText(context, "Erro ao enviar mensagem", Toast.LENGTH_SHORT).show()
+                smsManager.sendTextMessage(telefone, null, mensagem, envioIntent, entregueIntent)
+                Log.d("Mensagem enviada", "Mensagem enviada")
+                Toast.makeText(this, "Mensagem enviada com sucesso", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Erro ao enviar mensagem: permissão não concedida", Toast.LENGTH_SHORT).show()
             }
-        }catch (e: Exception){
-            ActivityCompat.requestPermissions(context as Activity, arrayOf(), 0)
-            Toast.makeText(context, "Erro ao enviar mensagem", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private val locationReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            intent?.let {
-                Log.d("WIDGET LOCALIZACAO","${latitude},${longitude}")
-                latitude = it.getStringExtra("latitude").toString()
-                longitude = it.getStringExtra("longitude").toString()
-                ultimaAtualizacao = it.getStringExtra("ultimaAtt").toString()
-            }
-        }
-    }
-
-    fun startSendSms(){
-        val listaContatos: ArrayList<Contato> = dbHelper.getContatos()
-
-        Log.d("Lista contatos","${listaContatos.size}")
-
-        listaContatos.forEach {
-                contato ->
-            if (context != null) {
-                Log.d("Numero","${contato.telefone}")
-                Log.d("Latitude","${latitude}")
-                Log.d("Longitude", "${ longitude }")
-                enviarMensagem(contato.telefone,"http://maps.google.com/?q=${latitude},${longitude}", context)
-            }
-        }
-    }
-
-    fun startSendSmsRepetidamente(context: Context?, iniciaSOS: Boolean){
-        Log.d("STARTSEND","${iniciaSOS}")
-        if(iniciaSOS){
-            Log.d("STARTSEND","valor: ${iniciaSOS}")
-            startSendSms()
-            val handler = Handler()
-            handler.postDelayed({
-                startSendSmsRepetidamente(context, iniciaSOS)
-            //}, 15000)
-            }, 30000)
+        } catch (e: Exception) {
+            Toast.makeText(this, "Erro ao enviar mensagem: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 }
