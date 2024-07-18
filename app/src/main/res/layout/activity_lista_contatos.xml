@@ -6,14 +6,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/rosa_palavras"
+    android:backgroundTint="@color/black"
     tools:context=".ui.ListaContatosActivity">
     
     <ListView
         android:id="@+id/lista_contatos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/rosa_palavras"
+        android:background="@color/black"
         />
 
 </LinearLayout>

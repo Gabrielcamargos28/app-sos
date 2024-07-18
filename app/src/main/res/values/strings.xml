@@ -1,18 +1,18 @@
 <resources>
     <!-- Principal-->
     <string name="app_name">interfacesSOS</string>
-    <string name="titulo_principal">Bem vindo</string>
+    <string name="titulo_principal">SOS</string>
     <string name="txt_tela01">Bom! Vamos começar,
     primeiro me informe seu nome</string>
     <string name="edt_nome">Nome</string>
-    <string name="txt_edt_nome">Digite seu nome:</string>
+    <string name="txt_edt_nome">Nome:</string>
     <!-- Segunda-->
-    <string name="titulo_segundaEtapa">Segunda etapa</string>
+    <string name="titulo_segundaEtapa">SOS</string>
     <string name="txt_segundaEtapa">Agora me informe seu email:</string>
     <string name="txt_edt_email">Digite seu email:</string>
     <string name="edt_email">Email</string>
     <!-- Terceira-->
-    <string name="titulo_terceiraEtapa">Terceira etapa</string>
+    <string name="titulo_terceiraEtapa">SOS</string>
     <string name="txt_terceiraEtapa">Hmm, agora uma parte bem importante!</string>
     <string name="txt_edt_contatos">Digite seus contatos:</string>
     <string name="edt_contato">(XX) XXXXX-XXXX</string>

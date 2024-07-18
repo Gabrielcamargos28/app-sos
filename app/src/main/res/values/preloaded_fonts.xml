@@ -2,6 +2,7 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/graduate</item>
+        <item>@font/ibm_plex_mono_thin</item>
         <item>@font/joti_one</item>
     </array>
 </resources>

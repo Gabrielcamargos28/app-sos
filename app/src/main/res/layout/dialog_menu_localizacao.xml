@@ -13,13 +13,13 @@
         android:fontFamily="@font/joti_one"
         android:text="@string/txt_menu"
         android:textAlignment="center"
-        android:textColor="@color/rosa_palavras"
+        android:textColor="@color/black"
         android:textSize="30dp" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/rosa_palavras"
+        android:backgroundTint="@color/black"
         android:fontFamily="@font/joti_one"
         android:textColor="@color/white"
         android:text="@string/btn_cad_cont"
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:backgroundTint="@color/rosa_palavras"
+        android:backgroundTint="@color/black"
         android:fontFamily="@font/joti_one"
         android:text="@string/btn_editar_cont"
         android:textSize="23dp" />
@@ -38,7 +38,7 @@
         android:id="@+id/btn_sair_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/rosa_palavras"
+        android:backgroundTint="@color/black"
         android:fontFamily="@font/joti_one"
         android:textColor="@color/white"
         android:text="@string/txt_sair"
@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:textColor="@color/white"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/rosa_palavras"
+        android:backgroundTint="@color/black"
         android:fontFamily="@font/joti_one"
         android:text="deletar dados"
         android:textSize="23dp" />

@@ -1,145 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/rosa_choque"
+    android:background="#000000"
     tools:context=".ui.SegundaEtapaActivity">
 
     <TextView
         android:id="@+id/txt_segundaEtapa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
-        android:fontFamily="@font/joti_one"
+        android:fontFamily="sans-serif"
         android:paddingBottom="50dp"
         android:text="@string/titulo_segundaEtapa"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="21dp" />
 
     <ImageView
         android:id="@+id/ellipse_lado_esq"
         android:layout_width="100dp"
         android:layout_height="912dp"
-        android:layout_marginEnd="267dp"
         android:src="@drawable/elipse_lado_esq"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/img_balao"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_balao" />
-
-    <ImageView
-        android:id="@+id/img_balao"
-        android:layout_width="417dp"
-        android:layout_height="449dp"
-        android:layout_marginTop="64dp"
-        android:src="@drawable/balao"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="331dp"
-        android:layout_height="101dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginBottom="224dp"
-        android:fontFamily="@font/joti_one"
-        android:text="@string/txt_segundaEtapa"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_balao"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/img_balao" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="186dp"
-        android:layout_height="203dp"
-        android:layout_marginTop="172dp"
-        android:src="@drawable/ola"
-        app:flow_horizontalAlign="start"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_segundaEtapa"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/txt_digite_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="404dp"
-        android:layout_marginEnd="73dp"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="@font/joti_one"
+        android:fontFamily="sans-serif"
         android:text="@string/txt_edt_email"
         android:textColor="@color/white"
         android:textSize="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/edt_email"
-        app:layout_constraintEnd_toEndOf="@+id/img_balao"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/img_balao" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_segundaEtapa"
+        tools:layout_editor_absoluteX="119dp"
+        tools:layout_editor_absoluteY="156dp" />
 
     <EditText
         android:id="@+id/edt_email"
         android:layout_width="260dp"
         android:layout_height="49dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="468dp"
         android:background="@drawable/custom_input"
         android:drawableStart="@drawable/ic_email"
         android:drawablePadding="5dp"
         android:hint="@string/edt_email"
-        android:textColorHint="@color/rosa_palavras"
-        android:textColor="@color/rosa_palavras"
         android:inputType="textEmailAddress"
         android:padding="12dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/vemelho"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.894"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.553" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageButton
-        android:id="@+id/btn_seta2etp_seguir"
-        android:layout_width="105dp"
-        android:layout_height="99dp"
-        android:layout_marginStart="285dp"
-        android:layout_marginTop="92dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/btn_seta"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="@+id/ellipse_lado_esq"
-        app:layout_constraintTop_toTopOf="@+id/edt_email"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <ImageButton
+    <Button
         android:id="@+id/btn_seta2etp_voltar"
-        android:layout_width="105dp"
-        android:layout_height="99dp"
-        android:background="@drawable/btn_seta"
-        android:rotation="-360"
-        android:rotationY="165"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_seta2etp_seguir"
-        app:layout_constraintHorizontal_bias="0.935"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.974" />
+        android:layout_width="156dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="100dp"
+        android:backgroundTint="@color/vemelho"
+        android:text="Voltar"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_seta2etp_seguir"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toStartOf="@+id/ellipse_lado_esq"
+        app:layout_constraintTop_toTopOf="@+id/btn_seta2etp_seguir"
+        app:layout_constraintVertical_bias="0.0" />
 
+    <Button
+        android:id="@+id/btn_seta2etp_seguir"
+        android:layout_width="156dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/vemelho"
+        android:text="Próximo"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.157"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toEndOf="@+id/btn_seta2etp_voltar"
+        app:layout_constraintTop_toBottomOf="@+id/edt_email" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
