@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         dbHelper = DBHelper(this)
 
+
         if(dbHelper.login()){
             val i = Intent(this, TelaLocalizacaoActivity::class.java)
             Log.d("Entrou no login", "foi para telaLocalizacao")
