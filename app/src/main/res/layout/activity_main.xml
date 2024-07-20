@@ -11,6 +11,8 @@
         android:id="@+id/txt_bemVindo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="26dp"
         android:fontFamily="sans-serif"
         android:paddingBottom="50dp"
         android:text="@string/titulo_principal"
@@ -18,40 +20,44 @@
         android:textColor="@color/white"
         android:textSize="48sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txt_digite_nome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="10dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <ImageView
         android:id="@+id/ellipse_lado_esq"
-        android:layout_width="189dp"
-        android:layout_height="773dp"
+        android:layout_width="98dp"
+        android:layout_height="768dp"
         android:src="@drawable/elipse_lado_esq"
-        tools:layout_editor_absoluteX="-85dp"
-        tools:layout_editor_absoluteY="-4dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.054" />
 
     <TextView
         android:id="@+id/txt_digite_nome"
         android:layout_width="104dp"
         android:layout_height="61dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginBottom="26dp"
         android:fontFamily="sans-serif"
         android:text="@string/txt_edt_nome"
         android:textColor="@color/white"
         android:textSize="34sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/edt_nome"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="@+id/ellipse_lado_esq"
-        app:layout_constraintTop_toBottomOf="@+id/txt_bemVindo" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_bemVindo" />
 
     <EditText
         android:id="@+id/edt_nome"
         android:layout_width="260dp"
         android:layout_height="49dp"
-        android:layout_marginTop="24dp"
         android:background="@drawable/custom_input"
         android:drawableStart="@drawable/ic_person"
         android:drawablePadding="5dp"
@@ -61,15 +67,15 @@
         android:textColorHint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.602"
+        app:layout_constraintHorizontal_bias="0.768"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_digite_nome"
-        app:layout_constraintVertical_bias="0.006" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.294" />
 
     <FrameLayout
         android:layout_width="156dp"
         android:layout_height="65dp"
-        android:layout_marginStart="285dp"
+        android:layout_marginStart="155dp"
         android:layout_marginTop="92dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -77,20 +83,18 @@
         app:layout_constraintHorizontal_bias="0.849"
         app:layout_constraintStart_toStartOf="@+id/ellipse_lado_esq"
         app:layout_constraintTop_toTopOf="@+id/edt_nome"
-        app:layout_constraintVertical_bias="1.0" >
+        app:layout_constraintVertical_bias="1.0">
 
         <Button
             android:id="@+id/btn_seta_seguir"
-            android:layout_width="match_parent"
+            android:layout_width="154dp"
             android:layout_height="match_parent"
             android:backgroundTint="#FF1700"
             android:text="Próximo"
             android:textSize="16dp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
     </FrameLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
