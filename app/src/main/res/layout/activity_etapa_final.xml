@@ -48,16 +48,15 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.803"
+        app:layout_constraintHorizontal_bias="0.734"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.14" />
+        app:layout_constraintVertical_bias="0.088" />
 
     <Button
         android:id="@+id/btn_confirmar"
         android:layout_width="156dp"
         android:layout_height="56dp"
-        android:layout_marginTop="15dp"
         android:backgroundTint="@color/vemelho"
         android:fontFamily="sans-serif"
         android:text="Confirmar"
@@ -67,88 +66,74 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.819"
-        app:layout_constraintStart_toStartOf="@+id/ellipse_lado_esq"
-        app:layout_constraintTop_toBottomOf="@+id/edt_cont2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="@+id/ellipse_lado_esq" />
 
     <EditText
         android:id="@+id/edt_final_cont1"
         android:layout_width="260dp"
         android:layout_height="49dp"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="19dp"
         android:background="@drawable/custom_input"
         android:drawableStart="@drawable/ic_phone"
         android:drawablePadding="5dp"
         android:hint="@string/edt_contato"
         android:padding="12dp"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/edt_cont2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ellipse_lado_esq"
-        app:layout_constraintTop_toBottomOf="@+id/edt_final_email" />
-
-    <EditText
-        android:id="@+id/edt_cont2"
-        android:layout_width="260dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="167dp"
-        android:layout_marginTop="59dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/custom_input"
-        android:drawableStart="@drawable/ic_phone"
-        android:drawablePadding="5dp"
-        android:hint="@string/edt_contato"
-        android:padding="12dp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/ellipse_lado_esq"
-        app:layout_constraintTop_toTopOf="@+id/edt_final_cont1"
-        app:layout_constraintVertical_bias="0.028" />
+        app:layout_constraintHorizontal_bias="0.741"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.392" />
+
+    <EditText
+        android:id="@+id/edt_final_cont2"
+        android:layout_width="260dp"
+        android:layout_height="49dp"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/ic_phone"
+        android:drawablePadding="5dp"
+        android:hint="@string/edt_contato"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.741"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.48" />
 
     <EditText
         android:id="@+id/edt_nome"
         android:layout_width="260dp"
         android:layout_height="49dp"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
         android:background="@drawable/custom_input"
         android:drawableStart="@drawable/ic_person"
         android:drawablePadding="5dp"
         android:hint="@string/edt_nome"
         android:padding="12dp"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/edt_final_email"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/ellipse_lado_esq"
-        app:layout_constraintTop_toBottomOf="@+id/txt_digite_nome"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.741"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.192" />
 
     <EditText
         android:id="@+id/edt_final_email"
         android:layout_width="260dp"
         android:layout_height="49dp"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="2dp"
         android:background="@drawable/custom_input"
         android:drawableStart="@drawable/ic_email"
         android:drawablePadding="5dp"
         android:hint="@string/edt_final_email"
         android:padding="12dp"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/edt_final_cont1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/ellipse_lado_esq"
-        app:layout_constraintTop_toBottomOf="@+id/edt_nome" />
+        app:layout_constraintHorizontal_bias="0.741"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.291" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

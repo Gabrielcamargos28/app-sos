@@ -34,14 +34,14 @@ class EtapaFinalActivity : AppCompatActivity() {
         binding.edtNome.setText(nome)
         binding.edtFinalEmail.setText(email)
         binding.edtFinalCont1.setText(contato1)
-        binding.edtCont2.setText(contato2)
+        binding.edtFinalCont2.setText(contato2)
 
         //confirmando alteracoes
         binding.btnConfirmar.setOnClickListener {
             val nomeAlteracao = binding.edtNome.text.toString()
             val emailAlteracao = binding.edtFinalEmail.text.toString()
             val contato1Alteracao = binding.edtFinalCont1.text.toString()
-            val contato2Alteracao = binding.edtCont2.text.toString()
+            val contato2Alteracao = binding.edtFinalCont2.text.toString()
 
             //criando usuario
             val usuarioCriado = Usuario(0,nomeAlteracao,emailAlteracao)

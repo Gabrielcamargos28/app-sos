@@ -126,6 +126,10 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
             val i = Intent(this, ListaContatosActivity::class.java)
             startActivity(i)
         }
+        binding.btnInformacoesGerais.setOnClickListener {
+            val i = Intent(this, TelaInformacoes::class.java)
+            startActivity(i)
+        }
     }
 
     fun startSendSms() {
@@ -172,7 +176,7 @@ class TelaLocalizacaoActivity : AppCompatActivity() {
                 val contatos: ArrayList<Contato> = dbHelper.getContatos()
                 if (contatos.isNotEmpty()) {
                     val contato1 = contatos[0]
-                    binding.txtContato1.setText(contato1.telefone)
+                    //binding.txtContato1.setText(contato1.telefone)
                 } else {
                     Log.d("lista contatos nula", "nula")
                 }

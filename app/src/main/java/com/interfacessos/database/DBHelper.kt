@@ -10,105 +10,98 @@ import android.util.Log
 import com.interfacessos.model.Contato
 import com.interfacessos.model.Usuario
 
-class DBHelper(context: Context): SQLiteOpenHelper(context, "sos.db",null,1) {
-
+class DBHelper(context: Context): SQLiteOpenHelper(context, "sos.db", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL("CREATE TABLE Usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, email TEXT NOT NULL)")
         db?.execSQL("CREATE TABLE Contato (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, telefone TEXT, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES Usuario(id))")
     }
 
-    fun deleteDatabase(context: Context){
+    fun deleteDatabase(context: Context) {
         context.deleteDatabase("sos.db")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        TODO("Not yet implemented")
+        // Exemplo de lógica de atualização: exclua e recrie tabelas ou execute scripts de atualização
+        db?.execSQL("DROP TABLE IF EXISTS Usuario")
+        db?.execSQL("DROP TABLE IF EXISTS Contato")
+        onCreate(db) // Recrie as tabelas
     }
 
-
-    fun insertUsuario(usuario: Usuario): Long{
+    fun insertUsuario(usuario: Usuario): Long {
         val db = this.writableDatabase
-        val contentValues = ContentValues()
-        contentValues.put("nome", usuario.nome)
-        contentValues.put("email", usuario.email)
-        val res = db.insert("Usuario",null, contentValues)
+        val contentValues = ContentValues().apply {
+            put("nome", usuario.nome)
+            put("email", usuario.email)
+        }
+        val res = db.insert("Usuario", null, contentValues)
         db.close()
         return res
     }
-    fun insertContato(contato: Contato, idUsuario: Int):Long{
-        Log.d("Insert Contato","insert contato")
+
+    fun insertContato(contato: Contato, idUsuario: Int): Long {
+        Log.d("Insert Contato", "insert contato")
         val db = this.writableDatabase
-        val contentValues = ContentValues()
-        contentValues.put("nome", contato.nome)
-        contentValues.put("telefone", contato.telefone)
-        contentValues.put("id_usuario", idUsuario)
-        val res = db.insert("Contato",null,contentValues)
+        val contentValues = ContentValues().apply {
+            put("nome", contato.nome)
+            put("telefone", contato.telefone)
+            put("id_usuario", idUsuario)
+        }
+        val res = db.insert("Contato", null, contentValues)
         db.close()
         return res
     }
 
     @SuppressLint("Recycle")
-    fun getUsuario(nomeUsuario: String): Usuario?{
+    fun getUsuario(nomeUsuario: String): Usuario? {
         val db = this.readableDatabase
-        val c = db.rawQuery("SELECT * FROM Usuario WHERE nome=?", arrayOf(nomeUsuario))
-
-        Log.d("TAG nome usuario", "${nomeUsuario}")
-        var usuario: Usuario?=null
-
-        //if (c.count == 1){
-        if(c.moveToFirst()){
-            val idIndex = c.getColumnIndex("id")
-            val nomeIndex = c.getColumnIndex("nome")
-            val emailIndex = c.getColumnIndex("email")
-            usuario = Usuario(
-                id = c.getInt(idIndex),
-                nome = c.getString(nomeIndex),
-                email = c.getString(emailIndex))
-            Log.d("TAG", "id ${idIndex},nome ${nomeIndex}, email: ${emailIndex}")
-        }else{
-            Log.d("TAG", "Nenhum dado encontrado na tabela Usuario")
+        val cursor: Cursor = db.rawQuery("SELECT * FROM Usuario WHERE nome=?", arrayOf(nomeUsuario))
+        val usuario: Usuario? = cursor.use {
+            if (it.moveToFirst()) {
+                val idIndex = it.getColumnIndex("id")
+                val nomeIndex = it.getColumnIndex("nome")
+                val emailIndex = it.getColumnIndex("email")
+                Usuario(
+                    id = it.getInt(idIndex),
+                    nome = it.getString(nomeIndex),
+                    email = it.getString(emailIndex)
+                )
+            } else {
+                null
+            }
         }
-        c.close()
         db.close()
         return usuario
     }
-    fun login(): Boolean{
 
+    fun login(): Boolean {
         val db = this.readableDatabase
-        val c = db.rawQuery("SELECT * FROM Usuario",null)
-
-        if(c.count == 1){
-            db.close()
-            return true
-        }else{
-            db.close()
-            return false
-        }
+        val cursor: Cursor = db.rawQuery("SELECT * FROM Usuario", null)
+        val isLoggedIn = cursor.count > 0
+        cursor.close()
+        db.close()
+        return isLoggedIn
     }
+
     @SuppressLint("Range")
-    fun getContatosDoUsuario(idUsuario: Int): ArrayList<Contato>{
+    fun getContatosDoUsuario(idUsuario: Int): ArrayList<Contato> {
         val contatos = ArrayList<Contato>()
-
         val db = this.readableDatabase
-
         val query = "SELECT * FROM Contato WHERE id_usuario = ?"
-
         val cursor: Cursor? = db.rawQuery(query, arrayOf(idUsuario.toString()))
 
-        cursor?.let {
-                if(it.moveToFirst()){
-                    do{
-                        val id = it.getInt(it.getColumnIndex("id"))
-                        val nome = it.getString(it.getColumnIndex("nome"))
-                        val telefone = it.getString(it.getColumnIndex("telefone"))
-
-                        contatos.add(Contato(id,nome,telefone))
-                    }while (it.moveToNext())
+        cursor?.use {
+            while (it.moveToNext()) {
+                val id = it.getInt(it.getColumnIndex("id"))
+                val nome = it.getString(it.getColumnIndex("nome"))
+                val telefone = it.getString(it.getColumnIndex("telefone"))
+                contatos.add(Contato(id, nome, telefone))
             }
         }
+        db.close()
         return contatos
     }
+
     @SuppressLint("Range")
     fun getUsuarios(): ArrayList<Usuario> {
         val usuarios = ArrayList<Usuario>()
@@ -116,44 +109,73 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, "sos.db",null,1) {
         val query = "SELECT * FROM Usuario"
         val cursor: Cursor = db.rawQuery(query, null)
 
-        cursor.moveToFirst() // Move para o primeiro resultado, se existir
-
-        while (!cursor.isAfterLast) {
-            val id = cursor.getInt(cursor.getColumnIndex("id"))
-            val nome = cursor.getString(cursor.getColumnIndex("nome"))
-            val email = cursor.getString(cursor.getColumnIndex("email"))
-
-            usuarios.add(Usuario(id, nome, email))
-
-            cursor.moveToNext() // Move para o próximo resultado
+        cursor.use {
+            while (it.moveToNext()) {
+                val id = it.getInt(it.getColumnIndex("id"))
+                val nome = it.getString(it.getColumnIndex("nome"))
+                val email = it.getString(it.getColumnIndex("email"))
+                usuarios.add(Usuario(id, nome, email))
+            }
         }
-
-        cursor.close() // Fecha o cursor após o uso
-
+        db.close()
         return usuarios
     }
+
     @SuppressLint("Range")
     fun getContatos(): ArrayList<Contato> {
-        val usuarios = ArrayList<Contato>()
+        val contatos = ArrayList<Contato>()
         val db = this.readableDatabase
         val query = "SELECT * FROM Contato"
         val cursor: Cursor = db.rawQuery(query, null)
 
-        cursor.moveToFirst() // Move para o primeiro resultado, se existir
-
-        while (!cursor.isAfterLast) {
-            val id = cursor.getInt(cursor.getColumnIndex("id"))
-            val nome = cursor.getString(cursor.getColumnIndex("nome"))
-            val telefone = cursor.getString(cursor.getColumnIndex("telefone"))
-            val idUsuario = cursor.getInt(cursor.getColumnIndex("id_usuario"))
-
-            usuarios.add(Contato(id, nome, telefone,idUsuario))
-
-            cursor.moveToNext() // Move para o próximo resultado
+        cursor.use {
+            while (it.moveToNext()) {
+                val id = it.getInt(it.getColumnIndex("id"))
+                val nome = it.getString(it.getColumnIndex("nome"))
+                val telefone = it.getString(it.getColumnIndex("telefone"))
+                val idUsuario = it.getInt(it.getColumnIndex("id_usuario"))
+                contatos.add(Contato(id, nome, telefone, idUsuario))
+            }
         }
-        cursor.close() // Fecha o cursor após o uso
-        return usuarios
+        db.close()
+        return contatos
+    }
+    @SuppressLint("Range")
+    fun getContatoPorId(idContato: Int): Contato? {
+        val db = this.readableDatabase
+        // Inclua o idContato na cláusula WHERE
+        val query = "SELECT * FROM Contato WHERE id = ?"
+        val cursor: Cursor = db.rawQuery(query, arrayOf(idContato.toString()))
+
+        var contato: Contato? = null
+        cursor.use {
+            if (it.moveToFirst()) {
+                val id = it.getInt(it.getColumnIndex("id"))
+                val nome = it.getString(it.getColumnIndex("nome"))
+                val telefone = it.getString(it.getColumnIndex("telefone"))
+                val idUsuario = it.getInt(it.getColumnIndex("id_usuario"))
+                contato = Contato(id, nome, telefone, idUsuario)
+            }
+        }
+        db.close()
+        return contato
     }
 
+    fun updateContato(contato: Contato): Boolean {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put("nome", contato.nome)
+            put("telefone", contato.telefone)
+            // Nota: Não atualize o ID
+        }
+        val whereClause = "id = ?"
+        val whereArgs = arrayOf(contato.id.toString())
+
+        val result = db.update("Contato", values, whereClause, whereArgs)
+        db.close()
+
+        // Retorna true se a atualização foi bem-sucedida
+        return result > 0
+    }
 
 }

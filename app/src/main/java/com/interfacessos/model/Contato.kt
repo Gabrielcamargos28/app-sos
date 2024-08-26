@@ -1,8 +1,8 @@
 package com.interfacessos.model
 
-class Contato(val id: Int=0, val nome: String = "", val telefone:String = "", val id_usuario: Int=0) {
+class Contato(val id: Int=0, var nome: String = "", var telefone:String = "", val id_usuario: Int=0) {
 
     override fun toString(): String {
-        return "Contato(id=$id, nome='$nome', telefone='$telefone', id_usuario='${id_usuario}')"
+        return "Contato \nid=$id\nNome='$nome'\nTelefone='$telefone'"
     }
 }
